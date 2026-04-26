@@ -204,3 +204,93 @@ body {
 }
 .link-hover:hover { color: var(--accent-green); }
 .link-hover:hover::after { width: 100%; }
+
+/* Skills section cyber motion */
+@keyframes matrix-drop {
+  0% {
+    transform: translate3d(0, -140%, 0);
+    opacity: 0;
+  }
+  15% { opacity: 0.85; }
+  80% { opacity: 0.2; }
+  100% {
+    transform: translate3d(0, 230%, 0);
+    opacity: 0;
+  }
+}
+.skills-matrix-line {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,255,136,0),
+    rgba(0,255,136,0.6),
+    rgba(34,211,238,0)
+  );
+  filter: drop-shadow(0 0 6px rgba(0,255,136,0.4));
+  animation-name: matrix-drop;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes hud-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes hud-orbit-rev {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+.skills-orbit { animation: hud-orbit 16s linear infinite; }
+.skills-orbit-rev { animation: hud-orbit-rev 12s linear infinite; }
+
+@keyframes chip-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.skills-chip-enter {
+  opacity: 0;
+  animation: chip-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bar-glide {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+.skills-progress {
+  position: relative;
+}
+.skills-progress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 36%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+  animation: bar-glide 2.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes panel-scan {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  16% { opacity: 0.35; }
+  100% {
+    transform: translateY(240%);
+    opacity: 0;
+  }
+}
+.skills-panel-scan::before {
+  content: '';
+  position: absolute;
+  inset: -30% 0 auto 0;
+  height: 35%;
+  background: linear-gradient(180deg, rgba(0,255,136,0.02), rgba(0,255,136,0.15), rgba(0,255,136,0));
+  animation: panel-scan 5.2s linear infinite;
+  pointer-events: none;
+}
