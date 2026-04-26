@@ -177,8 +177,8 @@ export default function Hero() {
             <div className="flex items-center gap-4 pt-2">
               {[
                 { icon: Github, href: 'https://github.com/AALIIAWAAMRA', label: 'GitHub' },
-                { icon: Linkedin, href: 'https://linkedin.com/in/nidhal-lahcen-8ba0a6296', label: 'LinkedIn' },
-                { icon: Mail, href: 'mailto:nidalhelahessane@gmail.com', label: 'Email' },
+                { icon: Linkedin, href: 'https://linkedin.com/in/0xAbabil', label: 'LinkedIn' },
+                { icon: Mail, href: 'mailto:deafmute000@gmail.com', label: 'Email' },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}

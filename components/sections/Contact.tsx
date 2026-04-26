@@ -35,7 +35,7 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const mailto = `mailto:nidalhelahessane@gmail.com?subject=${encodeURIComponent(form.subject || 'Portfolio Contact')}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`
+    const mailto = `mailto:deafmute000@gmail.com?subject=${encodeURIComponent(form.subject || 'Portfolio Contact')}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`
     window.location.href = mailto
     setSent(true)
     setTimeout(() => setSent(false), 3000)
@@ -88,7 +88,7 @@ export default function Contact() {
                 {[
                   { icon: Mail, label: 'deafmute000@gmail.com', href: 'mailto:deafmute000@gmail.com' },
                   { icon: Github, label: 'github.com/AALIIAWAAMRA', href: 'https://github.com/AALIIAWAAMRA' },
-                  { icon: Linkedin, label: 'linkedin.com', href: 'https://linkedin.com/in/nidhal-lahcen-8ba0a6296' },
+                  { icon: Linkedin, label: 'linkedin.com', href: 'https://linkedin.com/in/0xAbabil' },
           
                 ].map(({ icon: Icon, label, href }) => (
                   <a
