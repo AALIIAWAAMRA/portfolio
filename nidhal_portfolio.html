@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nidhal Boulgamh — Offensive Security Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#080c10;--bg2:#0d1117;--bg3:#111820;--bg4:#161e28;
+--surface:#151c25;--surface2:#1a2230;--surface3:#1f2a38;
+--border:#1e2d3d;--border2:#243448;
+--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+--accent:#00d4aa;--accent2:#00b894;--accent3:rgba(0,212,170,0.08);
+--red:#ff4d6d;--amber:#f59e0b;--blue:#3b82f6;
+--font-mono:'JetBrains Mono',monospace;
+--font-display:'Syne',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-mono);font-size:14px;line-height:1.7;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,12,16,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 clamp(1.5rem,5vw,4rem)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1100px;margin:0 auto}
+.nav-logo{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-0.02em;display:flex;align-items:center;gap:8px}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:clamp(1rem,3vw,2rem);align-items:center}
+.nav-links a{color:var(--text3);text-decoration:none;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{background:var(--accent);color:#000;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:8px 18px;border:none;cursor:pointer;text-decoration:none;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.85}
+main{padding-top:56px;max-width:1100px;margin:0 auto;padding-left:clamp(1.5rem,5vw,4rem);padding-right:clamp(1.5rem,5vw,4rem)}
+section{padding:6rem 0}
+.section-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+h2.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--text);letter-spacing:-0.03em;margin-bottom:3rem}
+#hero{min-height:calc(100vh - 56px);display:flex;align-items:center;padding:3rem 0 4rem;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 420px;gap:4rem;align-items:center;width:100%}
+.hero-status{display:inline-flex;align-items:center;gap:8px;background:var(--accent3);border:1px solid rgba(0,212,170,0.2);padding:6px 14px;margin-bottom:2rem;font-size:11px;letter-spacing:0.15em;color:var(--accent)}
+.hero-status::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-name{font-family:var(--font-display);font-size:clamp(2.5rem,7vw,5rem);font-weight:800;line-height:1;letter-spacing:-0.04em;margin-bottom:0.5rem}
+.hero-name span{color:var(--accent)}
+.hero-title{font-size:clamp(0.9rem,2vw,1.1rem);color:var(--text2);margin-bottom:1.5rem;font-weight:300}
+.hero-bio{color:var(--text2);line-height:1.8;max-width:480px;margin-bottom:2.5rem;font-size:13px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2.5rem}
+.tag{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border2);color:var(--text3);background:var(--surface)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#000;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:12px 24px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:opacity 0.2s}
+.btn-primary:hover{opacity:0.85}
+.btn-secondary{background:transparent;color:var(--text);font-family:var(--font-mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:12px 24px;border:1px solid var(--border2);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.terminal{background:var(--bg2);border:1px solid var(--border2);font-size:12px;overflow:hidden}
+.term-bar{background:var(--bg3);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-label{color:var(--text3);font-size:11px;margin-left:8px}
+.term-body{padding:20px;line-height:2}
+.term-prompt{color:var(--accent);margin-right:8px}
+.term-cmd{color:var(--text)}
+.term-output{color:var(--text2);padding-left:16px}
+.term-green{color:var(--accent)}
+.term-cursor{display:inline-block;width:8px;height:14px;background:var(--accent);animation:blink 1s step-end infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text p{color:var(--text2);line-height:1.9;margin-bottom:1.2rem;font-size:13px}
+.about-text p strong{color:var(--accent);font-weight:500}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-card{background:var(--surface);border:1px solid var(--border);padding:24px}
+.stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--accent);letter-spacing:-0.03em}
+.stat-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-top:4px}
+.tools-tabs{display:flex;gap:0;margin-bottom:2rem;flex-wrap:wrap;border:1px solid var(--border)}
+.tool-tab{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 18px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-family:var(--font-mono);transition:all 0.2s;border-right:1px solid var(--border)}
+.tool-tab:last-child{border-right:none}
+.tool-tab.active{background:var(--accent);color:#000;font-weight:700}
+.tool-tab:hover:not(.active){color:var(--accent);background:var(--accent3)}
+.tools-panel{display:none}
+.tools-panel.active{display:flex;flex-wrap:wrap;gap:10px}
+.tool-badge{font-size:11px;letter-spacing:0.05em;padding:7px 14px;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);transition:all 0.2s;cursor:default}
+.tool-badge:hover{border-color:var(--accent);color:var(--accent);background:var(--accent3)}
+.exp-timeline{position:relative;padding-left:2rem}
+.exp-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border)}
+.exp-item{position:relative;padding:0 0 3rem 2rem}
+.exp-item::before{content:'';position:absolute;left:-4px;top:6px;width:8px;height:8px;background:var(--accent);border:2px solid var(--bg)}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.exp-role{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--text)}
+.exp-company{color:var(--accent);font-size:13px;margin-bottom:4px}
+.exp-date{font-size:11px;color:var(--text3);letter-spacing:0.08em}
+.exp-desc{color:var(--text2);font-size:12px;line-height:1.8}
+.exp-desc li{margin-bottom:6px;padding-left:12px;position:relative;list-style:none}
+.exp-desc li::before{content:'›';position:absolute;left:0;color:var(--accent)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.project-card{background:var(--surface);border:1px solid var(--border);padding:28px;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.project-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.project-card:hover::before{transform:scaleX(1)}
+.project-cat{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.project-name{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.project-sub{font-size:11px;color:var(--text3);margin-bottom:14px;letter-spacing:0.05em}
+.project-desc{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:20px}
+.project-stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.stack-tag{font-size:10px;padding:3px 8px;background:var(--bg3);border:1px solid var(--border);color:var(--text3)}
+.project-link{font-size:11px;color:var(--accent);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.project-link:hover{text-decoration:underline}
+.ctf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.ctf-card{background:var(--surface);border:1px solid var(--border);padding:22px;transition:border-color 0.2s}
+.ctf-card:hover{border-color:var(--accent)}
+.ctf-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.ctf-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--text)}
+.ctf-badge{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;background:var(--accent3);border:1px solid rgba(0,212,170,0.3);color:var(--accent)}
+.ctf-platform{font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:0.05em}
+.ctf-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.ctf-meta{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.ctf-chip{font-size:10px;padding:3px 8px;background:var(--bg3);border:1px solid var(--border);color:var(--text3);letter-spacing:0.05em}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.blog-card{background:var(--surface);border:1px solid var(--border);padding:28px;transition:border-color 0.2s;cursor:pointer}
+.blog-card:hover{border-color:var(--border2)}
+.blog-date{font-size:11px;color:var(--text3);margin-bottom:12px;letter-spacing:0.08em}
+.blog-cat{display:inline-block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 10px;background:var(--accent3);color:var(--accent);border:1px solid rgba(0,212,170,0.2);margin-bottom:14px}
+.blog-title{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.3}
+.blog-excerpt{font-size:12px;color:var(--text2);line-height:1.7}
+.blog-coming{opacity:0.5}
+.blog-coming .blog-cat{background:var(--surface3);color:var(--text3);border-color:var(--border)}
+.lang-grid{display:flex;gap:16px;flex-wrap:wrap;margin-top:2rem}
+.lang-item{background:var(--surface);border:1px solid var(--border);padding:16px 24px;text-align:center}
+.lang-name{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--text)}
+.lang-level{font-size:11px;color:var(--accent);letter-spacing:0.1em;margin-top:4px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact-info p{color:var(--text2);font-size:13px;line-height:1.9;margin-bottom:2rem}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{display:flex;align-items:center;gap:12px;color:var(--text2);text-decoration:none;font-size:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);transition:all 0.2s}
+.contact-link:hover{border-color:var(--accent);color:var(--accent)}
+.contact-link-icon{width:20px;text-align:center;font-size:14px}
+.contact-form input,.contact-form textarea{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:13px;padding:14px 16px;margin-bottom:14px;outline:none;transition:border-color 0.2s;resize:none}
+.contact-form input:focus,.contact-form textarea:focus{border-color:var(--accent)}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--text3)}
+.contact-form textarea{height:120px}
+.contact-form button{width:100%;background:var(--accent);color:#000;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;transition:opacity 0.2s}
+.contact-form button:hover{opacity:0.85}
+footer{border-top:1px solid var(--border);padding:2rem clamp(1.5rem,5vw,4rem);max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-text{font-size:11px;color:var(--text3);letter-spacing:0.05em}
+.footer-accent{color:var(--accent)}
+.bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;opacity:0.025;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px}
+.divider{height:1px;background:var(--border);margin:0}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .terminal{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nav-links a:not(:last-child){display:none}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  section{padding:4rem 0}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="0" y="0" width="7" height="7" fill="#00d4aa"/><rect x="9" y="0" width="7" height="7" fill="#00d4aa" opacity="0.4"/><rect x="0" y="9" width="7" height="7" fill="#00d4aa" opacity="0.4"/><rect x="9" y="9" width="7" height="7" fill="#00d4aa" opacity="0.15"/></svg>
+      nidhal<span>@sec</span>
+    </div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#arsenal">Arsenal</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#ctf">CTFs</a>
+      <a href="#contact" class="nav-cta">Hire Me</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-status">AVAILABLE FOR RED TEAM ENGAGEMENTS</div>
+      <div class="hero-name">Nidhal<br><span>Boulgamh</span></div>
+      <div class="hero-title">Offensive Security Engineer · Malware Developer · Red Teamer</div>
+      <p class="hero-bio">I build attack tools from scratch, not just run them. Specializing in penetration testing, malware development, reverse engineering, and APT simulation — fluent in the full offensive lifecycle from recon to detection evasion.</p>
+      <div class="hero-tags">
+        <span class="tag">PTES</span>
+        <span class="tag">MITRE ATT&amp;CK</span>
+        <span class="tag">OWASP</span>
+        <span class="tag">DFIR</span>
+        <span class="tag">Red Team</span>
+        <span class="tag">Cryptanalysis</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">→ Engage</a>
+        <a href="#projects" class="btn-secondary">View Arsenal →</a>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="term-dot" style="background:#ff5f57"></div>
+        <div class="term-dot" style="background:#febc2e"></div>
+        <div class="term-dot" style="background:#28c840"></div>
+        <span class="term-label">bash — nidhal@kali: ~/red-team</span>
+      </div>
+      <div class="term-body">
+        <div><span class="term-prompt">›</span> <span class="term-cmd">whoami</span></div>
+        <div class="term-output term-green">nidhal_boulgamh</div>
+        <div style="margin-top:8px"><span class="term-prompt">›</span> <span class="term-cmd">cat /etc/roles</span></div>
+        <div class="term-output">[ pentest | redteam | maldev | crypto | RE ]</div>
+        <div style="margin-top:8px"><span class="term-prompt">›</span> <span class="term-cmd">ls projects/</span></div>
+        <div class="term-output term-green">Venus-Trap &nbsp;Predicta &nbsp;KeySploit &nbsp;NetSim +1</div>
+        <div style="margin-top:8px"><span class="term-prompt">›</span> <span class="term-cmd">./engage.sh --target=all</span></div>
+        <div class="term-output"><span style="color:var(--accent)">[ ✓ ]</span> Target profiled. Surface mapped.</div>
+        <div class="term-output"><span style="color:var(--accent)">[ ✓ ]</span> Payload compiled. Ready to deploy.</div>
+        <div style="margin-top:8px"><span class="term-prompt">›</span> <span class="term-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 / Profile</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm an <strong>Offensive Security Engineer</strong> based in Algeria with deep specialization in penetration testing, malware development, reverse engineering, and advanced persistent threat research. What sets me apart: I <strong>build real attack tools</strong>, not just run them.</p>
+      <p>Currently engineering <strong>threat-intelligence infrastructure</strong> at Cybears® — architecting security-hardened pipelines that power early IoC detection and multi-source threat correlation for production cybersecurity products. Simultaneously shaping the next generation of security professionals as a <strong>hands-on cybersecurity instructor</strong> at GOMYCODE.</p>
+      <p>I'm fluent in the full offensive lifecycle: <strong>reconnaissance, exploitation, post-exploitation, lateral movement, and detection evasion</strong>. From cryptographic framework research to live honeypot deployments, I approach security as an attacker who thinks like a defender.</p>
+      <p>Engineering Degree in <strong>Computer Science — Cybersecurity</strong> from University of Batna 2, Algeria. Proficient in Arabic (Native), English (C1), and French (B2).</p>
+    </div>
+    <div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num">4+</div><div class="stat-label">Red Team Projects</div></div>
+        <div class="stat-card"><div class="stat-num">30+</div><div class="stat-label">Students per Cohort</div></div>
+        <div class="stat-card"><div class="stat-num">10+</div><div class="stat-label">Security Domains</div></div>
+        <div class="stat-card"><div class="stat-num">C1</div><div class="stat-label">English Proficiency</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARSENAL -->
+<section id="arsenal">
+  <div class="section-label">02 / Arsenal</div>
+  <h2 class="section-title">Tools &amp; Tech Stack</h2>
+  <div class="tools-tabs">
+    <button class="tool-tab active" onclick="switchTab(this,'web')">Web</button>
+    <button class="tool-tab" onclick="switchTab(this,'network')">Network</button>
+    <button class="tool-tab" onclick="switchTab(this,'malware')">Malware &amp; RE</button>
+    <button class="tool-tab" onclick="switchTab(this,'mobile')">Mobile</button>
+    <button class="tool-tab" onclick="switchTab(this,'crypto')">Crypto</button>
+    <button class="tool-tab" onclick="switchTab(this,'scripting')">Scripting</button>
+    <button class="tool-tab" onclick="switchTab(this,'cloud')">Cloud &amp; DevSec</button>
+    <button class="tool-tab" onclick="switchTab(this,'frameworks')">Frameworks</button>
+  </div>
+  <div id="tab-web" class="tools-panel active">
+    <span class="tool-badge">Burp Suite</span><span class="tool-badge">SQLmap</span><span class="tool-badge">OWASP ZAP</span><span class="tool-badge">Nikto</span><span class="tool-badge">Gobuster</span><span class="tool-badge">Hydra</span><span class="tool-badge">SQL Injection</span><span class="tool-badge">XSS (Stored/Reflected/DOM)</span><span class="tool-badge">CSRF</span><span class="tool-badge">IDOR</span><span class="tool-badge">SSRF</span><span class="tool-badge">XXE</span><span class="tool-badge">Auth Bypass</span><span class="tool-badge">JWT Attacks</span><span class="tool-badge">Session Hijacking</span><span class="tool-badge">API Security Testing</span><span class="tool-badge">OWASP Top 10</span><span class="tool-badge">GraphQL Security</span>
+  </div>
+  <div id="tab-network" class="tools-panel">
+    <span class="tool-badge">Nmap</span><span class="tool-badge">Wireshark</span><span class="tool-badge">Netcat</span><span class="tool-badge">Scapy</span><span class="tool-badge">tcpreplay</span><span class="tool-badge">Snort IDS/IPS</span><span class="tool-badge">p0f</span><span class="tool-badge">PCAP Analysis</span><span class="tool-badge">MITM</span><span class="tool-badge">Port Scanning</span><span class="tool-badge">Packet Crafting</span><span class="tool-badge">OS Fingerprinting</span><span class="tool-badge">OpenVPN</span><span class="tool-badge">IPsec</span><span class="tool-badge">VLAN</span><span class="tool-badge">Firewall Hardening</span>
+  </div>
+  <div id="tab-malware" class="tools-panel">
+    <span class="tool-badge">Custom Implant Dev</span><span class="tool-badge">C2 Concepts</span><span class="tool-badge">Evasion Techniques</span><span class="tool-badge">Behavioral Analysis</span><span class="tool-badge">Dionaea Honeypot</span><span class="tool-badge">Threat Intelligence</span><span class="tool-badge">Signature Development</span><span class="tool-badge">Digital Forensics</span><span class="tool-badge">x86/x64 Assembly RE</span><span class="tool-badge">Binary Analysis</span><span class="tool-badge">Static Malware Analysis</span><span class="tool-badge">Dynamic Malware Analysis</span><span class="tool-badge">Metasploit</span><span class="tool-badge">Hashcat</span><span class="tool-badge">John the Ripper</span>
+  </div>
+  <div id="tab-mobile" class="tools-panel">
+    <span class="tool-badge">MobSF</span><span class="tool-badge">Frida</span><span class="tool-badge">Apktool</span><span class="tool-badge">ADB</span><span class="tool-badge">Jadx</span><span class="tool-badge">Android Pentesting</span><span class="tool-badge">iOS Pentesting</span><span class="tool-badge">APK Analysis</span><span class="tool-badge">SSL Pinning Bypass</span><span class="tool-badge">Traffic Interception</span><span class="tool-badge">OWASP MASTG</span><span class="tool-badge">OWASP MASVS</span>
+  </div>
+  <div id="tab-crypto" class="tools-panel">
+    <span class="tool-badge">RSA</span><span class="tool-badge">AES</span><span class="tool-badge">ECC</span><span class="tool-badge">Diffie-Hellman</span><span class="tool-badge">Side-Channel Attacks</span><span class="tool-badge">Cryptanalysis</span><span class="tool-badge">OpenSSL</span><span class="tool-badge">PKI</span><span class="tool-badge">Key Management</span><span class="tool-badge">Protocol Analysis</span>
+  </div>
+  <div id="tab-scripting" class="tools-panel">
+    <span class="tool-badge">Python (Advanced)</span><span class="tool-badge">Bash</span><span class="tool-badge">C</span><span class="tool-badge">JavaScript</span><span class="tool-badge">x86/x64 Assembly</span><span class="tool-badge">Custom Exploit Scripts</span><span class="tool-badge">Security Tool Development</span><span class="tool-badge">NetworkX</span><span class="tool-badge">ML/DL Pipelines</span>
+  </div>
+  <div id="tab-cloud" class="tools-panel">
+    <span class="tool-badge">AWS EC2</span><span class="tool-badge">AWS S3</span><span class="tool-badge">AWS IAM</span><span class="tool-badge">Docker</span><span class="tool-badge">Redis</span><span class="tool-badge">KVM/QEMU</span><span class="tool-badge">Threat Modeling</span><span class="tool-badge">SAST</span><span class="tool-badge">CI/CD Security</span><span class="tool-badge">DevSecOps</span><span class="tool-badge">Container Security</span>
+  </div>
+  <div id="tab-frameworks" class="tools-panel">
+    <span class="tool-badge">PTES</span><span class="tool-badge">OSSTMM</span><span class="tool-badge">OWASP WSTG</span><span class="tool-badge">MITRE ATT&amp;CK</span><span class="tool-badge">NIST CSF</span><span class="tool-badge">CVSS/CVE</span><span class="tool-badge">MERN Stack</span><span class="tool-badge">Django</span><span class="tool-badge">Grafana</span><span class="tool-badge">Kibana</span><span class="tool-badge">Elastic Stack</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">03 / Red Team Labs</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-cat">Threat Intelligence</div>
+      <div class="project-name">Venus-Trap</div>
+      <div class="project-sub">Advanced Honeypot Platform</div>
+      <p class="project-desc">Production honeypot capturing live malware samples with SHA-256 + TLS API, XMPP real-time alerting, OS fingerprinting via p0f, PCAP replay with tcpreplay, and Grafana/Kibana threat dashboards. Built for real threat intelligence operations.</p>
+      <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Dionaea</span><span class="stack-tag">XMPP</span><span class="stack-tag">Grafana</span><span class="stack-tag">Kibana</span><span class="stack-tag">tcpreplay</span><span class="stack-tag">p0f</span></div>
+      <a href="https://github.com/AALIIAWAAMRA/Venus-Trap" class="project-link">→ github.com/Venus-Trap</a>
+    </div>
+    <div class="project-card">
+      <div class="project-cat">ML Security</div>
+      <div class="project-name">Predicta</div>
+      <div class="project-sub">Malware Detection System</div>
+      <p class="project-desc">Hybrid ML/DL pipeline classifying polymorphic, zero-day, and APT malware through static and behavioral analysis. Automated threat scoring eliminates analyst triage noise. Targets the hardest malware classification problems.</p>
+      <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">ML/DL</span><span class="stack-tag">Static Analysis</span><span class="stack-tag">Behavioral Analysis</span></div>
+      <a href="https://github.com/AALIIAWAAMRA/Predicta" class="project-link">→ github.com/Predicta</a>
+    </div>
+    <div class="project-card">
+      <div class="project-cat">Cryptanalysis</div>
+      <div class="project-name">KeySploit</div>
+      <div class="project-sub">Cryptographic Exploitation Platform</div>
+      <p class="project-desc">Cryptanalysis framework exposing RSA, AES, and ECC implementation weaknesses. Demonstrates side-channel attack vectors and key management flaws for security research and cryptographic vulnerability education.</p>
+      <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Cryptography</span><span class="stack-tag">Cryptanalysis</span><span class="stack-tag">Side-Channel</span></div>
+      <a href="https://github.com/AALIIAWAAMRA/KeySploit" class="project-link">→ github.com/KeySploit</a>
+    </div>
+    <div class="project-card">
+      <div class="project-cat">Network Security</div>
+      <div class="project-name">Network Attack Sim</div>
+      <div class="project-sub">IDS/IPS Rule Development Platform</div>
+      <p class="project-desc">Simulates 5 live attack types — DoS, MITM, brute force, port scan, and sniffing — with real-time countermeasures. Purpose-built for IDS/IPS rule development and security team training exercises.</p>
+      <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">NetworkX</span><span class="stack-tag">Wireshark</span><span class="stack-tag">Scapy</span></div>
+      <a href="https://github.com/AALIIAWAAMRA/networek_attack_simullation" class="project-link">→ github.com/NetSim</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">04 / Career</div>
+  <h2 class="section-title">Experience &amp; Education</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem">
+    <div>
+      <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem">Professional Experience</p>
+      <div class="exp-timeline">
+        <div class="exp-item">
+          <div class="exp-role">Software Engineer Intern</div>
+          <div class="exp-company">Cybears®</div>
+          <div class="exp-date">Feb 2026 — Present</div>
+          <ul class="exp-desc" style="margin-top:10px">
+            <li>Architect security-hardened threat-intelligence pipelines (MERN, Django, Redis, Docker) powering early IoC detection and multi-source threat correlation</li>
+            <li>Encode TTP research into detection features; apply DevSecOps throughout SDLC — threat modeling, SAST, container security</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">Cybersecurity Instructor</div>
+          <div class="exp-company">GOMYCODE · Part-time</div>
+          <div class="exp-date">Dec 2025 — Present</div>
+          <ul class="exp-desc" style="margin-top:10px">
+            <li>Design adversary-focused curriculum for 30+ students per cohort covering SQL injection, XSS, CSRF, network attacks, IAM abuse, and cryptographic weaknesses</li>
+            <li>Engineer custom attack scenarios and CTF-style exercises; graduates operate Burp Suite, Metasploit, and Wireshark on day one</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">System Engineer</div>
+          <div class="exp-company">I-Car Corporation · Part-time</div>
+          <div class="exp-date">Oct — Dec 2025</div>
+          <ul class="exp-desc" style="margin-top:10px">
+            <li>Hardened Linux (RHEL/Ubuntu) fleet with VLAN segmentation, IPsec/OpenVPN tunnels, and iptables firewall policies</li>
+            <li>Monitored packet-level traffic and conducted forensic log analysis for active incident response</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">Web Developer Intern</div>
+          <div class="exp-company">Codeva Technologies · Remote</div>
+          <div class="exp-date">Aug — Oct 2025</div>
+          <ul class="exp-desc" style="margin-top:10px">
+            <li>Attacked the production application before hardening it: identified SQL injection, XSS, and CSRF via manual OWASP Top 10 assessment</li>
+            <li>Drove remediation through parameterized queries, output encoding, and anti-CSRF controls</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem">Education</p>
+      <div class="exp-timeline">
+        <div class="exp-item">
+          <div class="exp-role">Engineering Degree</div>
+          <div class="exp-company">Computer Science — Cybersecurity</div>
+          <div class="exp-date">2022 — 2026</div>
+          <p class="exp-desc" style="margin-top:10px">University of Batna 2, Algeria. Deep focus on offensive security, applied cryptography, systems security, and network engineering.</p>
+        </div>
+      </div>
+      <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin:2rem 0 1rem">Languages</p>
+      <div class="lang-grid">
+        <div class="lang-item"><div class="lang-name">Arabic</div><div class="lang-level">Native</div></div>
+        <div class="lang-item"><div class="lang-name">English</div><div class="lang-level">C1 Advanced</div></div>
+        <div class="lang-item"><div class="lang-name">French</div><div class="lang-level">B2 Upper-Int</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTF -->
+<section id="ctf">
+  <div class="section-label">05 / Competitions</div>
+  <h2 class="section-title">CTFs &amp; Labs</h2>
+  <div class="ctf-grid">
+    <div class="ctf-card">
+      <div class="ctf-top">
+        <div><div class="ctf-name">TryHackMe</div><div class="ctf-platform">Continuous Training Platform</div></div>
+        <span class="ctf-badge">Active</span>
+      </div>
+      <p class="ctf-desc">Consistent hands-on training across Web Exploitation, Privilege Escalation, Network Attacks, and OSINT challenges. Used to validate offensive techniques before applying them in professional engagements.</p>
+      <div class="ctf-meta"><span class="ctf-chip">Web Exploitation</span><span class="ctf-chip">PrivEsc</span><span class="ctf-chip">Network</span></div>
+    </div>
+    <div class="ctf-card">
+      <div class="ctf-top">
+        <div><div class="ctf-name">HackTheBox</div><div class="ctf-platform">Professional Lab Environment</div></div>
+        <span class="ctf-badge">Active</span>
+      </div>
+      <p class="ctf-desc">Active on HTB machines and challenges spanning Web, Reverse Engineering, Cryptography, and Forensics. Focus on realistic AD environments and enterprise-level attack chains.</p>
+      <div class="ctf-meta"><span class="ctf-chip">RE</span><span class="ctf-chip">Crypto</span><span class="ctf-chip">Forensics</span><span class="ctf-chip">AD</span></div>
+    </div>
+    <div class="ctf-card">
+      <div class="ctf-top">
+        <div><div class="ctf-name">Custom CTF Labs</div><div class="ctf-platform">GOMYCODE · Instructor-built</div></div>
+        <span class="ctf-badge">Creator</span>
+      </div>
+      <p class="ctf-desc">Engineered custom attack scenarios and CTF-style exercises from scratch for student cohorts. Designed real attack chains from recon to post-exploitation covering SQL injection, XSS, CSRF, and network-layer attacks.</p>
+      <div class="ctf-meta"><span class="ctf-chip">Web</span><span class="ctf-chip">Network</span><span class="ctf-chip">Designed</span></div>
+    </div>
+    <div class="ctf-card" style="border-style:dashed;opacity:0.5">
+      <div class="ctf-top">
+        <div><div class="ctf-name">More Results Coming</div><div class="ctf-platform">Competitive CTFs — 2026</div></div>
+        <span class="ctf-badge" style="background:var(--surface3);color:var(--text3);border-color:var(--border)">Soon</span>
+      </div>
+      <p class="ctf-desc">Actively participating in national and international Capture The Flag competitions. Results will be published here as they occur.</p>
+      <div class="ctf-meta"><span class="ctf-chip">In Progress</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-label">06 / Knowledge</div>
+  <h2 class="section-title">Blog &amp; Write-ups</h2>
+  <div class="blog-grid">
+    <div class="blog-card blog-coming">
+      <div class="blog-date">Coming Soon</div>
+      <div class="blog-cat">Malware Analysis</div>
+      <div class="blog-title">Dissecting a Polymorphic Implant: Evasion Techniques Under the Microscope</div>
+      <p class="blog-excerpt">A deep dive into the behavioral patterns and evasion mechanisms observed during development of Predicta — including how modern AV engines fail against zero-day samples.</p>
+    </div>
+    <div class="blog-card blog-coming">
+      <div class="blog-date">Coming Soon</div>
+      <div class="blog-cat">Cryptanalysis</div>
+      <div class="blog-title">Side-Channel Attacks on RSA: Timing Leaks and Key Recovery in Practice</div>
+      <p class="blog-excerpt">Practical demonstration of timing-based side-channel attacks against RSA implementations, based on research conducted for the KeySploit framework.</p>
+    </div>
+    <div class="blog-card blog-coming">
+      <div class="blog-date">Coming Soon</div>
+      <div class="blog-cat">Red Team</div>
+      <div class="blog-title">Building Venus-Trap: A Production Honeypot That Actually Catches Malware</div>
+      <p class="blog-excerpt">Architecture decisions, deployment challenges, and real-world threat data collected during Venus-Trap's operation as a live threat intelligence platform.</p>
+    </div>
+  </div>
+  <p style="color:var(--text3);font-size:12px;text-align:center;margin-top:2rem;letter-spacing:0.05em">Write-ups and technical articles will be published as research is completed.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">07 / Contact</div>
+  <h2 class="section-title">Let's Work Together</h2>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-info">
+        <p>Available for <strong style="color:var(--accent)">red team engagements</strong>, penetration testing contracts, security consulting, CTF collaborations, and speaking opportunities. I bring deep technical expertise and a builder's mindset to every engagement.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:nidalhelahessane@gmail.com" class="contact-link"><span class="contact-link-icon">✉</span> nidalhelahessane@gmail.com</a>
+        <a href="tel:+213795046486" class="contact-link"><span class="contact-link-icon">✆</span> +213 795 046 486</a>
+        <a href="https://linkedin.com/in/nidhal-lahcen-8ba0a6296" class="contact-link"><span class="contact-link-icon">in</span> linkedin.com/in/nidhal-lahcen</a>
+        <a href="https://github.com/AALIIAWAAMRA" class="contact-link"><span class="contact-link-icon">gh</span> github.com/AALIIAWAAMRA</a>
+        <a href="#" class="contact-link" style="border-color:var(--accent);color:var(--accent)"><span class="contact-link-icon">↓</span> Download Resume (PDF)</a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <input type="text" placeholder="Your Name"/>
+      <input type="email" placeholder="Your Email"/>
+      <input type="text" placeholder="Subject (e.g. Red Team Engagement)"/>
+      <textarea placeholder="Describe your engagement or project..."></textarea>
+      <button type="button">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-text">© 2026 <span class="footer-accent">Nidhal Boulgamh</span> — Offensive Security Engineer</div>
+  <div class="footer-text">Algeria · nidalhelahessane@gmail.com</div>
+</footer>
+
+<script>
+function switchTab(el, id) {
+  document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tools-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
